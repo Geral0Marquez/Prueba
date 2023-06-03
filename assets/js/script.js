@@ -1,5 +1,30 @@
 'use strict';
 
+/**
+ * PRELOAD
+ * 
+ * loading will be end after document is loaded
+ */
+
+const preloader = document.querySelector("[data-preaload]");
+
+window.addEventListener("load", function () {
+  preloader.classList.add("loaded");
+  document.body.classList.add("loaded");
+});
+
+
+
+/**
+ * add event listener on multiple elements
+ */
+
+const addEventOnElements = function (elements, eventType, callback) {
+  for (let i = 0, len = elements.length; i < len; i++) {
+    elements[i].addEventListener(eventType, callback);
+  }
+}
+
 
 
 /**
@@ -43,50 +68,161 @@ window.addEventListener("scroll", function () {
 
 
 
+
 /**
- * search box toggle
+ * HERO SLIDER
  */
 
-const searchBtn = document.querySelector("[data-search-btn]");
-const searchContainer = document.querySelector("[data-search-container]");
-const searchSubmitBtn = document.querySelector("[data-search-submit-btn]");
-const searchCloseBtn = document.querySelector("[data-search-close-btn]");
+const heroSlider = document.querySelector("[data-hero-slider]");
+const heroSliderItems = document.querySelectorAll("[data-hero-slider-item]");
+const heroSliderPrevBtn = document.querySelector("[data-prev-btn]");
+const heroSliderNextBtn = document.querySelector("[data-next-btn]");
 
-const searchBoxElems = [searchBtn, searchSubmitBtn, searchCloseBtn];
+let currentSlidePos = 0;
+let lastActiveSliderItem = heroSliderItems[0];
 
-for (let i = 0; i < searchBoxElems.length; i++) {
-  searchBoxElems[i].addEventListener("click", function () {
-    searchContainer.classList.toggle("active");
-    document.body.classList.toggle("active");
-  });
+const updateSliderPos = function () {
+  lastActiveSliderItem.classList.remove("active");
+  heroSliderItems[currentSlidePos].classList.add("active");
+  lastActiveSliderItem = heroSliderItems[currentSlidePos];
 }
 
+const slideNext = function () {
+  if (currentSlidePos >= heroSliderItems.length - 1) {
+    currentSlidePos = 0;
+  } else {
+    currentSlidePos++;
+  }
+
+  updateSliderPos();
+}
+
+heroSliderNextBtn.addEventListener("click", slideNext);
+
+const slidePrev = function () {
+  if (currentSlidePos <= 0) {
+    currentSlidePos = heroSliderItems.length - 1;
+  } else {
+    currentSlidePos--;
+  }
+
+  updateSliderPos();
+}
+
+heroSliderPrevBtn.addEventListener("click", slidePrev);
+
+/**
+ * auto slide
+ 
+**/
+let autoSlideInterval;
+
+const autoSlide = function () {
+  autoSlideInterval = setInterval(function () {
+    slideNext();
+  }, 7000);
+}
+
+addEventOnElements([heroSliderNextBtn, heroSliderPrevBtn], "mouseover", function () {
+  clearInterval(autoSlideInterval);
+});
+
+addEventOnElements([heroSliderNextBtn, heroSliderPrevBtn], "mouseout", autoSlide);
+
+window.addEventListener("load", autoSlide);
+
 
 
 /**
- * move cycle on scroll
+ * PARALLAX EFFECT
  */
 
-const deliveryBoy = document.querySelector("[data-delivery-boy]");
+const parallaxItems = document.querySelectorAll("[data-parallax-item]");
 
-let deliveryBoyMove = -80;
-let lastScrollPos = 0;
+let x, y;
 
-window.addEventListener("scroll", function () {
+window.addEventListener("mousemove", function (event) {
 
-  let deliveryBoyTopPos = deliveryBoy.getBoundingClientRect().top;
+  x = (event.clientX / window.innerWidth * 10) - 5;
+  y = (event.clientY / window.innerHeight * 10) - 5;
 
-  if (deliveryBoyTopPos < 500 && deliveryBoyTopPos > -250) {
-    let activeScrollPos = window.scrollY;
+  // reverse the number eg. 20 -> -20, -5 -> 5
+  x = x - (x * 2);
+  y = y - (y * 2);
 
-    if (lastScrollPos < activeScrollPos) {
-      deliveryBoyMove += 1;
-    } else {
-      deliveryBoyMove -= 1;
-    }
-
-    lastScrollPos = activeScrollPos;
-    deliveryBoy.style.transform = `translateX(${deliveryBoyMove}px)`;
+  for (let i = 0, len = parallaxItems.length; i < len; i++) {
+    x = x * Number(parallaxItems[i].dataset.parallaxSpeed);
+    y = y * Number(parallaxItems[i].dataset.parallaxSpeed);
+    parallaxItems[i].style.transform = `translate3d(${x}px, ${y}px, 0px)`;
   }
 
 });
+
+
+//slider de btn-nav
+const btns = document.querySelectorAll(".nav-btn");
+const slides=document.querySelectorAll(".slider-item")
+
+let sliderNav = function(manual){
+  
+  btns.forEach((btn)=>{
+   btn.classList.remove("active");
+    
+  });
+
+  slides.forEach((slide)=>{
+    slide.classList.remove("active");
+     
+   });
+
+  btns[manual].classList.add("active");
+  slides[manual].classList.add("active")
+}
+
+btns.forEach((btn,i)=>{
+  btn.addEventListener("click",()=>{
+    sliderNav(i)
+  });
+});
+
+
+
+/*modal*/
+
+const open = document.getElementById('open');
+const modal_container = document.getElementById('modal_container');
+const close = document.getElementById('close');
+
+open.addEventListener('click', () => {
+  modal_container.classList.add('show');  
+});
+
+close.addEventListener('click', () => {
+  modal_container.classList.remove('show');
+});
+
+
+
+
+/*
+/*preguntas
+const preguntaHide = document.getElementById('pregunta')
+
+
+
+
+// ===============  FAQ ================== //
+const faq = document.getElementsByClassName('faq-page')
+let i
+for (i = 0; i < faq.length; i++) {
+  faq[i].addEventListener('click', function () {
+    this.classList.toggle('active')
+    const body = this.nextElementSibling
+    if (body.style.display === 'block') {
+      body.style.display = 'none'
+    } else {
+      body.style.display = 'block'
+    }
+  })
+}
+*/ 

@@ -1,0 +1,22 @@
+{
+  "name": "foodie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Geral0Marquez/Foodie.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Geral0Marquez/Foodie/issues"
+  },
+  "homepage": "https://github.com/Geral0Marquez/Foodie#readme",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
