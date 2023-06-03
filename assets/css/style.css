@@ -282,7 +282,7 @@ body.active {
 
 .box-left {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
 }
 
@@ -469,10 +469,11 @@ body.active {
 /*-----------------------------------*\
   #HERO
 \*-----------------------------------*/
-
+/*
 .hero .slider-btn {
   display: none;
 }
+*/
 
 .hero {
   position: relative;
@@ -484,7 +485,7 @@ body.active {
 .hero .slider-item {
   position: absolute;
   top: 50%;
-  left: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
@@ -872,7 +873,6 @@ body.active {
 }
 
 .about .section-title {
-  max-width: 15ch;
   margin-block: 40px 50px;
   margin-inline: auto;
 }
@@ -1758,6 +1758,12 @@ table.ac-table th {
 
 }
 
+@media (min-width: 767px) {
+  .about .section-title {
+    padding-left: 14%;
+  }
+
+}
 
 
 
@@ -1798,9 +1804,16 @@ table.ac-table th {
 
   .box-left {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
   }
+
+  .box-none {
+    display: none;
+  }
+
+}
+
+@media (min-width: 446px) {
 
   .hero .slider-btn {
     display: grid;
@@ -1817,26 +1830,25 @@ table.ac-table th {
     transform: translateY(-50%) rotate(45deg);
     transition: var(--transition-1);
   }
-
+  
   .hero .slider-btn ion-icon {
     transform: rotate(-45deg);
   }
-
+  
   .hero .slider-btn.prev {
     left: 30px;
   }
-
+  
   .hero .slider-btn.next {
     right: 30px;
   }
-
+  
   .hero .slider-btn:is(:hover, :focus-visible) {
     color: ORANGE;
   }
-
-  .box-none {
-    display: none;
-  }
+  
+  
+  
 
 }
 
@@ -1853,9 +1865,9 @@ table.ac-table th {
 }
 
 /*centrar el container*/
-@media (min-width: 560px) and (max-width: 2060px) {
+@media (min-width: 800px) and (max-width: 2060px) {
   .hero .slider-item {
-    left: 50%;
+    left: 40%;
   }
 
 
@@ -1887,14 +1899,14 @@ table.ac-table th {
 }
 
 @media (min-width: 100px) and (max-width: 776px) {
- 
-  .grid-list{
+
+  .grid-list {
     grid-template-columns: 1fr;
     justify-items: center;
     align-items: center;
 
   }
-  
+
   .footer-brand .logo {
     justify-items: center;
     /* Centrar horizontalmente */
